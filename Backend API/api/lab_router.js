@@ -9,10 +9,10 @@ const {
 } = require('./lab_controller');
 
 
-router.get('/',getAllLabs);
-router.post('/',addNewLab);
-router.get('/:id',getLabById);
-router.put('/:id',updateLab);
-router.delete('/:id',deleteLab);
+router.get('/',getAllLabs); //Get all labs route
+router.post('/',addNewLab); //Create new lab route
+router.get('/:id',getLabById); //Get lab by id route
+router.put('/:id',updateLab); //Update lab by id route
+router.delete('/:id',deleteLab); //Delete lab by id route
 
 module.exports = router;

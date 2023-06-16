@@ -1,5 +1,5 @@
 const Joi = require('joi');
-
+//Lab validition schema using Joi
 const labInfoValidation = Joi.object(
     {
         name : Joi.string().required().max(50),

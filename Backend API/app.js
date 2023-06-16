@@ -5,7 +5,7 @@ const labRouter = require('./api/lab_router');
 const app = express();
 app.use(express.json());
 
-
+//labRouter contains all routes of (Labs)
 app.use('/api/labs',labRouter);
           
 
