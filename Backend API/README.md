@@ -1,4 +1,4 @@
-# React Frontend Integration
+# Backend API (Node js + MongoDB)
 To install project dependencies, you can run:
 ### `npm install`
 In the project directory, you can run:
