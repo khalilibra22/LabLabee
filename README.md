@@ -1,6 +1,6 @@
 # LabLabee coding test
 
-### This application contains two part
+### This application contains two parts
 
 ## Backend API (Node js & MongoDB)
 
