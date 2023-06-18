@@ -1,10 +1,10 @@
 # LabLabee coding test
 
-## This application contains two part:
+### This application contains two part
 
 ## Backend API (Node js & MongoDB)
 
-##### install mangoDB / Node js in your comptuer
+##### install mangoDB (v6.0.6 used in the development) / Node js(v16.15.1 used in the development) in your comptuer
 
 ###### To install dependencies : npm install
 
