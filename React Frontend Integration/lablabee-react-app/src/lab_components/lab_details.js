@@ -28,7 +28,7 @@ export default function LabDetailsPage() {
       setTechnology(json.technology);
       setStartDate(dayjs(new Date(formateDate(json.start_date))));
       setEndDate(dayjs(new Date(formateDate(json.end_date))));
-    }).catch((err)=> window.alert(err));
+    }).catch((err)=> window.alert('Network issue, retry again !!'));
 },[]);
 
   const HandleBackToHome = () =>{
@@ -37,7 +37,7 @@ export default function LabDetailsPage() {
 
   return (
     <div style={{width : '100vw',height:'80vh',display: 'flex',justifyContent:'center'}}>
-      <div style={{height :'100%',width:'40%',paddingTop: 60}}>
+      <div style={{height :'100%',width:'40%',paddingTop: 40}}>
       <h2>Lab Details</h2>
         <TextField
             margin="dense"
@@ -95,7 +95,7 @@ export default function LabDetailsPage() {
         />
       </DemoContainer>
     </LocalizationProvider>
-    <div style={{marginBottom: '40px'}}></div>
+    <div style={{marginBottom: '30px'}}></div>
     <Button variant="contained" disableElevation onClick={HandleBackToHome}>Back to Home</Button>
     </div>   
     </div>

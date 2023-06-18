@@ -44,7 +44,7 @@ export default function AddNewLabPopup({refreshGrid}) {
         await refreshGrid();
         window.alert("Lab Added !!");
        
-    })
+    }).catch((err)=>window.alert('Network issue, retry again !!'));
       
   }
 

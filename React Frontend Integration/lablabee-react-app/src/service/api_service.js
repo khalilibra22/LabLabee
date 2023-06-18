@@ -19,20 +19,7 @@ async function  deleteLab(id){
     headers: {
       'Content-Type': 'application/json'
     }
-  })
-    .then(response => {
-      if (response.ok) {
-        console.log('Data deleted successfully');
-        // Handle success case
-      } else {
-        throw new Error('Delete request failed');
-        // Handle error case
-      }
-    })
-    .catch(error => {
-      console.error(error);
-      // Handle fetch error
-    });    
+  });
 }
 
 async function addNewLab(newLabData){

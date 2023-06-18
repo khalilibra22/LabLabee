@@ -18,7 +18,7 @@ const LabsDataGrid = () => {
     const refreshLabsGrid = async () => {
       apiService.getAllLabs().then(json =>{            
         const labs = json.map((lab)=>{
-          return {
+        return {
             _id : lab._id,
             name : lab.name,
             technology : lab.technology,
@@ -28,7 +28,7 @@ const LabsDataGrid = () => {
         });
 
         setLabs(labs);
-      })
+      }).catch((err) => window.alert('Network issue, retry again !!'));
     }
     const columns = [
       { field: '_id', headerName: 'ID', width: 250,headerAlign: 'center',align: 'center' },
@@ -36,13 +36,14 @@ const LabsDataGrid = () => {
       { field: 'technology', headerName: 'Technology',width: 150,headerAlign: 'center' ,align: 'center' },
       { field: 'start_date', headerName: 'Start Date', width: 200,headerAlign: 'center',align: 'center'  },
       { field: 'end_date', headerName: 'End Date', width: 200,headerAlign: 'center',align: 'center'  },
-      { field: 'actions', headerName: 'Actions',headerAlign: 'center', width: 250, sortable: false, renderCell:(para)=> ActionsCell({params: para , refreshGrid: refreshLabsGrid}),align: 'center' },
+      { field: 'actions', headerName: 'Actions',headerAlign: 'center', width: 250, sortable: false, renderCell:(args)=> ActionsCell({params: args , refreshGrid: refreshLabsGrid}),align: 'center' },
     ];
   
     return (
+      
+
         <div>
-        <h1>Labs List</h1>
-        <div style={{ textAlign: 'left' ,paddingLeft : '12px',paddingBottom : '10px'}}>
+        <div style={{ textAlign: 'left' ,paddingLeft : '12px',paddingBottom : '10px',marginTop : '20px'}}>
         <AddNewLabPopup refreshGrid={refreshLabsGrid}/>
         </div>
         

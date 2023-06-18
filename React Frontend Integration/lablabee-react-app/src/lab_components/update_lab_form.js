@@ -31,7 +31,7 @@ export default function LabUpadatePage() {
       setTechnology(json.technology);
       setStartDate(dayjs(new Date(formateDate(json.start_date))));
       setEndDate(dayjs(new Date(formateDate(json.end_date))));
-    })
+    }).catch((err)=> alert('Network issue, retry again !!'));
 },[]);
 
   const HandleUpdateLabClick = async () =>{
@@ -45,20 +45,20 @@ export default function LabUpadatePage() {
       start_date : startDate,
       end_date : endDate
   }
-    const response = await apiService.updateLabById(id,jsonData).then(window.alert("Lab updated !!")).then(navigate('/'))
-
+    const response = await apiService.
+    updateLabById(id,jsonData).
+    then(window.alert("Lab updated !!")).
+    then(navigate('/')).
+    catch((err)=>window.alert('Network issue, retry again !!'));
   }
   const HandleBackToHome = () =>{
     navigate('/');
 
   }
 
-
-  
-
   return (
     <div style={{width : '100vw',height:'80vh',display: 'flex',justifyContent:'center'}}>
-      <div style={{height :'100%',width:'40%',paddingTop: 60}}>
+      <div style={{height :'100%',width:'40%',paddingTop: 40}}>
       <h2>Update Lab Information</h2>
         <TextField
             margin="dense"
@@ -112,7 +112,7 @@ export default function LabUpadatePage() {
         />
       </DemoContainer>
     </LocalizationProvider>
-    <div style={{marginBottom: '40px'}}></div>
+    <div style={{marginBottom: '30px'}}></div>
     <Button variant="contained" disableElevation onClick={HandleUpdateLabClick} style={{marginRight: '10px'}}>Update Lab</Button>
     <Button disableElevation onClick={HandleBackToHome}>Back to Home</Button>
     </div>   

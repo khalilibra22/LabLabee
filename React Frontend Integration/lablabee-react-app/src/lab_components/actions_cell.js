@@ -13,9 +13,18 @@ export default function ActionsCell({params,refreshGrid}) {
       const isDeletable = window.confirm('Are you sure you want to delete this lab?')
       if(!isDeletable) return;
       const id = params.row._id;
-      await apiService.deleteLab(id).then(window.alert('Lab deleted !!'));
-      refreshGrid();
+      try
+      {
+        const response = await apiService.deleteLab(id);
+        window.alert('Lab deleted !!');
+        refreshGrid();
+
+      }catch{
+        window.alert('Network issue, retry again !!');
+        return;
+      }        
     };
+
     const handleView =  () => {
       const id = params.row._id;
       navigate(`/view/${id}`);
@@ -28,9 +37,9 @@ export default function ActionsCell({params,refreshGrid}) {
    
     return (
       <div style={{ display: 'flex' }}>
-        <Button onClick={handleView}>View</Button>
-        <Button onClick={handleUpdate}>Update</Button>
-        <Button onClick={handleDelete}>Delete</Button>
+        <Button  onClick={handleView}>View</Button>
+        <Button style={{ color: 'yellowgreen' }} onClick={handleUpdate}>Update</Button>
+        <Button style={{ color: 'red' }} onClick={handleDelete}>Delete</Button>
         
       </div>
     );
