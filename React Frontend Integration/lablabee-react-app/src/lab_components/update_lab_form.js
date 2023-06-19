@@ -7,18 +7,22 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateField } from '@mui/x-date-pickers/DateField';
 import { useNavigate,useParams } from 'react-router-dom';
+import LoadingPage from './loading';
+import NetworkErrorPage from './network_errors';
 import apiService from '../service/api_service'
 
 export default function LabUpadatePage() {
-
-  
-
   
   const [_name, setName] = React.useState("");
   const [_technology, setTechnology] = React.useState("");
   const [startDate, setStartDate] = React.useState(dayjs(new Date()));
   const [endDate, setEndDate] = React.useState(dayjs((new Date()).setDate(new Date().getDate()+7)));
   const [_id, setId] = React.useState("");
+
+  const[isLoading,setIsLoading] = React.useState(true);
+  const[isLoadingBtn,setIsLoadingBtn] = React.useState(false);
+  const[isNetworkError,setIsNetworkError] = React.useState(false);
+
   const navigate = useNavigate();  
   const { id } = useParams();
 
@@ -31,7 +35,12 @@ export default function LabUpadatePage() {
       setTechnology(json.technology);
       setStartDate(dayjs(new Date(formateDate(json.start_date))));
       setEndDate(dayjs(new Date(formateDate(json.end_date))));
-    }).catch((err)=> alert('Network issue, retry again !!'));
+      setIsLoading(false);
+      setIsNetworkError(false);
+    }).catch((err)=>{
+      setIsLoading(false);
+      setIsNetworkError(true);
+    });
 },[]);
 
   const HandleUpdateLabClick = async () =>{
@@ -45,17 +54,31 @@ export default function LabUpadatePage() {
       start_date : startDate,
       end_date : endDate
   }
-    const response = await apiService.
-    updateLabById(id,jsonData).
-    then(window.alert("Lab updated !!")).
-    then(navigate('/')).
-    catch((err)=>window.alert('Network issue, retry again !!'));
+
+  try{
+    setIsLoadingBtn(true);
+    const response = await apiService.updateLabById(id,jsonData);
+    setIsLoadingBtn(false);
+    window.alert("Lab updated !!");
+    navigate('/');
+  }catch{
+    setIsLoading(false);
+    setIsNetworkError(true);
+  }
+    
   }
   const HandleBackToHome = () =>{
     navigate('/');
 
   }
+  
 
+  if(isLoading){
+    return <LoadingPage/> ;
+  }
+  if(isNetworkError){
+    return <NetworkErrorPage/>
+  }
   return (
     <div style={{width : '100vw',height:'80vh',display: 'flex',justifyContent:'center'}}>
       <div style={{height :'100%',width:'40%',paddingTop: 40}}>
@@ -112,9 +135,11 @@ export default function LabUpadatePage() {
         />
       </DemoContainer>
     </LocalizationProvider>
-    <div style={{marginBottom: '30px'}}></div>
-    <Button variant="contained" disableElevation onClick={HandleUpdateLabClick} style={{marginRight: '10px'}}>Update Lab</Button>
+    <div style={{display: 'flex', marginBottom: '30px'}}></div>
+    
+    <Button disabled={isLoadingBtn} variant="contained" disableElevation onClick={HandleUpdateLabClick} style={{marginRight: '10px'}}>Update Lab</Button>  
     <Button disableElevation onClick={HandleBackToHome}>Back to Home</Button>
+    
     </div>   
     </div>
     

@@ -7,6 +7,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateField } from '@mui/x-date-pickers/DateField';
 import { useNavigate,useParams } from 'react-router-dom';
+import LoadingPage from './loading';
+import NetworkErrorPage from './network_errors';
 import apiService from '../service/api_service'
 
 export default function LabDetailsPage() {
@@ -16,6 +18,9 @@ export default function LabDetailsPage() {
   const [startDate, setStartDate] = React.useState(dayjs(new Date()));
   const [endDate, setEndDate] = React.useState(dayjs((new Date()).setDate(new Date().getDate()+7)));
   const [_id, setId] = React.useState("");
+  
+  const[isLoading,setIsLoading] = React.useState(true);
+  const[isNetworkError,setIsNetworkError] = React.useState(false);
 
   const navigate = useNavigate();
   const { id } = useParams();
@@ -28,13 +33,26 @@ export default function LabDetailsPage() {
       setTechnology(json.technology);
       setStartDate(dayjs(new Date(formateDate(json.start_date))));
       setEndDate(dayjs(new Date(formateDate(json.end_date))));
-    }).catch((err)=> window.alert('Network issue, retry again !!'));
+
+      setIsLoading(false);
+      setIsNetworkError(false);
+
+    }).catch((err)=> {
+      setIsNetworkError(true);
+      setIsLoading(false);
+    });
 },[]);
+
 
   const HandleBackToHome = () =>{
     navigate('/');
   }
-
+  if(isLoading){
+    return <LoadingPage/> ;
+  }
+  if(isNetworkError){
+    return <NetworkErrorPage/>
+  }
   return (
     <div style={{width : '100vw',height:'80vh',display: 'flex',justifyContent:'center'}}>
       <div style={{height :'100%',width:'40%',paddingTop: 40}}>
@@ -80,15 +98,15 @@ export default function LabDetailsPage() {
         <DateField
           label="Start Date"
           value={startDate}
-          inputProps={{ readOnly: true, }}
+          disabled={true}
           format='YYYY-MM-DD'
           onChange={(newValue) => setStartDate(newValue)
         }
         />
         <DateField
+          disabled={true}
           label="End Date"
           value={endDate}
-          inputProps={{ readOnly: true, }}
           format='YYYY-MM-DD'
           onChange={(newValue) => setEndDate(newValue)
         }

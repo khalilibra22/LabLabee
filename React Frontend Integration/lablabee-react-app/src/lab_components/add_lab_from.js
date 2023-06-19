@@ -11,10 +11,12 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateField } from '@mui/x-date-pickers/DateField';
+import CircularProgress from '@mui/material/CircularProgress';
 import apiService from '../service/api_service'
 
-export default function AddNewLabPopup({refreshGrid}) {
+export default function AddNewLabPopup({refreshGrid,errorPageLaunch}) {
   const [open, setOpen] = React.useState(false);
+  const[isLoading,setIsLoading] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -26,8 +28,10 @@ export default function AddNewLabPopup({refreshGrid}) {
     setTechnology("");
   };
   const handleAddNewLabClick = async () => {
+    setIsLoading(true);
     if(!_name || !_technology) {
         window.alert("Fields empty !!");
+        setIsLoading(false);
         return;
     }
     const jsonData = {
@@ -42,9 +46,10 @@ export default function AddNewLabPopup({refreshGrid}) {
         setName("");
         setTechnology("");
         await refreshGrid();
+        setIsLoading(false);
         window.alert("Lab Added !!");
        
-    }).catch((err)=>window.alert('Network issue, retry again !!'));
+    }).catch(err => errorPageLaunch());
       
   }
 
@@ -110,11 +115,15 @@ export default function AddNewLabPopup({refreshGrid}) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button variant="contained" disableElevation onClick={handleAddNewLabClick}>Create</Button>
+          <Button disabled={isLoading} variant="contained" disableElevation onClick={handleAddNewLabClick}>Create</Button>
+          
+          
+
         </DialogActions>
       </Dialog>
     </div>
     
   );
 }
+
 
