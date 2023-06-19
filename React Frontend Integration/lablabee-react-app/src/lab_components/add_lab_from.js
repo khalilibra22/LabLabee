@@ -28,10 +28,9 @@ export default function AddNewLabPopup({refreshGrid,errorPageLaunch}) {
     setTechnology("");
   };
   const handleAddNewLabClick = async () => {
-    setIsLoading(true);
+    
     if(!_name || !_technology) {
         window.alert("Fields empty !!");
-        setIsLoading(false);
         return;
     }
     const jsonData = {
@@ -40,6 +39,7 @@ export default function AddNewLabPopup({refreshGrid,errorPageLaunch}) {
         start_date : startDate,
         end_date : endDate
     }
+    setIsLoading(true);
     await apiService.addNewLab(jsonData)
     .then(async ()=>{
          setOpen(false);
@@ -50,6 +50,7 @@ export default function AddNewLabPopup({refreshGrid,errorPageLaunch}) {
         window.alert("Lab Added !!");
        
     }).catch(err => errorPageLaunch());
+    setIsLoading(false);
       
   }
 
